@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"html/template"
 	"log"
+	"encoding/json"
 	"net/http"
 	"os"
 	"path/filepath"
+	"github.com/AreaHQ/jsonhal"
 
 	"github.com/gorilla/mux"
 
@@ -43,61 +45,58 @@ type page struct {
 	Schemas []string
 }
 
+// RegsiterResponse is the response from the eq-survey-register request
+type RegsiterResponse struct {
+	jsonhal.Hal
+}
+
+// Schemas is a list of Schema
+type Schemas []Schema
+
+// Schema is an available schema
+type Schema struct {
+	jsonhal.Hal
+	Name  string `json:"name"`
+}
+
 func getAvailableSchemas() []string {
-	// TODO: Replace with something dynamic
-	return []string{
-		"0_rogue_one.json",
-		"0_star_wars.json",
-		"1_0001.json",
-		"1_0005.json",
-		"1_0102.json",
-		"1_0112.json",
-		"1_0203.json",
-		"1_0205.json",
-		"1_0213.json",
-		"1_0215.json",
-		"2_0001.json",
-		"census_communal.json",
-		"census_household.json",
-		"census_individual.json",
-		"mci_0203.json",
-		"mci_0213.json",
-		"mci_0205.json",
-		"multiple_answers.json",
-		"rsi_0102.json",
-		"rsi_0112.json",
-		"test_big_list_naughty_strings.json",
-		"test_checkbox.json",
-		"test_conditional_dates.json",
-		"test_conditional_routing.json",
-		"test_currency.json",
-		"test_dates.json",
-		"test_final_confirmation.json",
-		"test_household_question.json",
-		"test_interstitial_page.json",
-		"test_language.json",
-		"test_language_cy.json",
-		"test_markup.json",
-		"test_metadata_routing.json",
-		"test_navigation.json",
-		"test_navigation_confirmation.json",
-		"test_numbers.json",
-		"test_percentage.json",
-		"test_question_guidance.json",
-		"test_radio.json",
-		"test_radio_checkbox_descriptions.json",
-		"test_relationship_household.json",
-		"test_repeating_and_conditional_routing.json",
-		"test_repeating_household.json",
-		"test_routing_on_multiple_select.json",
-		"test_skip_condition.json",
-		"test_skip_condition_block.json",
-		"test_skip_condition_group.json",
-		"test_textarea.json",
-		"test_textfield.json",
-		"test_timeout.json",
-		"test_total_breakdown.json",
+
+	req, err := http.NewRequest("GET", settings.Get("SURVEY_REGISTER_URL"), nil)
+	if err != nil {
+		log.Fatal("NewRequest: ", err)
+		return []string{}
 	}
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal("Do: ", err)
+		return []string{}
+	}
+
+	defer resp.Body.Close()
+
+	var registerResponse RegsiterResponse
+
+	if err := json.NewDecoder(resp.Body).Decode(&registerResponse); err != nil {
+		log.Println(err)
+	}
+
+	var schemas Schemas
+
+	schemasJSON, _ := json.Marshal(registerResponse.Embedded["schemas"])
+
+	if err := json.Unmarshal(schemasJSON, &schemas); err != nil {
+		log.Println(err)
+	}
+
+	schemaList := []string{}
+
+	for _, schema := range schemas {
+		schemaList = append(schemaList, schema.Name)
+	}
+
+	return schemaList
 }
 
 func getLaunchHandler(w http.ResponseWriter, r *http.Request) {

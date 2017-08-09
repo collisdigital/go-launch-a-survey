@@ -127,7 +127,7 @@ type variantFlags struct {
 	SexualIdentity string `json:"sexual_identity,omitempty"`
 }
 
-var eqIDFormTypeRegex = regexp.MustCompile(`^(?P<eq_id>[a-z0-9]+)_(?P<form_type>\w+)\.json`)
+var eqIDFormTypeRegex = regexp.MustCompile(`^(?P<eq_id>[a-z0-9]+)_(?P<form_type>\w+)`)
 
 func extractEqIDFormType(schema string) (EqID, formType string) {
 	match := eqIDFormTypeRegex.FindStringSubmatch(schema)
