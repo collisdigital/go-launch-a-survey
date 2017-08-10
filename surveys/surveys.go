@@ -146,7 +146,13 @@ func getAvailableSchemasFromRegister() []LauncherSchema {
 
 		for _, schema := range schemas {
 			url := schema.Links["self"]
-			schemaList = append(schemaList, LauncherSchema{Name: schema.Name, URL: url.Href})
+			EqID, formType := extractEqIDFormType(schema.Name)
+			schemaList = append(schemaList, LauncherSchema{
+				Name: schema.Name,
+				URL: url.Href,
+				EqID: EqID,
+				FormType: formType,
+			})
 		}
 	}
 
