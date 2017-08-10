@@ -2,18 +2,18 @@ package main // import "github.com/ONSdigital/go-launch-a-survey"
 
 import (
 	"fmt"
+
 	"html/template"
 	"log"
-	"encoding/json"
 	"net/http"
 	"os"
 	"path/filepath"
-	"github.com/AreaHQ/jsonhal"
 
 	"github.com/gorilla/mux"
 
 	"github.com/ONSdigital/go-launch-a-survey/authentication"
 	"github.com/ONSdigital/go-launch-a-survey/settings"
+	"github.com/ONSdigital/go-launch-a-survey/surveys"
 )
 
 func serveTemplate(templateName string, data interface{}, w http.ResponseWriter, r *http.Request) {
@@ -42,65 +42,11 @@ func serveTemplate(templateName string, data interface{}, w http.ResponseWriter,
 }
 
 type page struct {
-	Schemas []string
-}
-
-// RegsiterResponse is the response from the eq-survey-register request
-type RegsiterResponse struct {
-	jsonhal.Hal
-}
-
-// Schemas is a list of Schema
-type Schemas []Schema
-
-// Schema is an available schema
-type Schema struct {
-	jsonhal.Hal
-	Name  string `json:"name"`
-}
-
-func getAvailableSchemas() []string {
-
-	req, err := http.NewRequest("GET", settings.Get("SURVEY_REGISTER_URL"), nil)
-	if err != nil {
-		log.Fatal("NewRequest: ", err)
-		return []string{}
-	}
-	client := &http.Client{}
-
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal("Do: ", err)
-		return []string{}
-	}
-
-	defer resp.Body.Close()
-
-	var registerResponse RegsiterResponse
-
-	if err := json.NewDecoder(resp.Body).Decode(&registerResponse); err != nil {
-		log.Println(err)
-	}
-
-	var schemas Schemas
-
-	schemasJSON, _ := json.Marshal(registerResponse.Embedded["schemas"])
-
-	if err := json.Unmarshal(schemasJSON, &schemas); err != nil {
-		log.Println(err)
-	}
-
-	schemaList := []string{}
-
-	for _, schema := range schemas {
-		schemaList = append(schemaList, schema.Name)
-	}
-
-	return schemaList
+	Schemas []surveys.LauncherSchema
 }
 
 func getLaunchHandler(w http.ResponseWriter, r *http.Request) {
-	p := page{Schemas: getAvailableSchemas()}
+	p := page{Schemas: surveys.GetAvailableSchemas()}
 	serveTemplate("launch.html", p, w, r)
 }
 
