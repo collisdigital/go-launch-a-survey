@@ -24,6 +24,11 @@ docker run --rm -v "$(pwd):/src" -v /var/run/docker.sock:/var/run/docker.sock ce
 docker run -it -p 8000:8000 go-launch-a-survey:latest
 ```
 
+You can also run a Survey Register for launcher to load Schemas from 
+```
+docker run -it -p 8080:8080 onsdigital/eq-survey-register:simple-rest-api
+```
+
 ### Notes
 * There are no unit tests yet
 * JWT spec based on http://ons-schema-definitions.readthedocs.io/en/latest/jwt_profile.html
