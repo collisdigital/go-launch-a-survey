@@ -105,6 +105,7 @@ func GetAvailableSchemas() []LauncherSchema {
 		LauncherSchemaFromFilename("test_textfield.json"),
 		LauncherSchemaFromFilename("test_timeout.json"),
 		LauncherSchemaFromFilename("test_total_breakdown.json"),
+		LauncherSchemaFromFilename("test_unit_patterns.json"),
 	}
 
 	return append(schemaList, getAvailableSchemasFromRegister()...)
