@@ -7,6 +7,9 @@ import (
 	"log"
 	"net/http"
 	"regexp"
+	"os"
+	"fmt"
+	"path/filepath"
 )
 
 // LauncherSchema is a representation of a schema in the Launcher
@@ -40,6 +43,15 @@ func extractEqIDFormType(schema string) (EqID, formType string) {
 		formType = match[2]
 	}
 	return
+}
+
+func LauncherSchemaFromDirectory(filename string) LauncherSchema{
+	file, err := os.Open("/**/*.go")
+	if err != nil {
+		log.Fatal(err)
+	}
+	return LauncherSchemaFromFilename(filename)
+	}
 }
 
 // LauncherSchemaFromFilename creates a LauncherSchema record from a schema filename
@@ -95,6 +107,15 @@ func GetAvailableSchemas() []LauncherSchema {
 		LauncherSchemaFromFilename("test_question_guidance.json"),
 		LauncherSchemaFromFilename("test_radio.json"),
 		LauncherSchemaFromFilename("test_radio_checkbox_descriptions.json"),
+		LauncherSchemaFromFilename("test_radio_mandatory.json"),
+		LauncherSchemaFromFilename("test_radio_mandatory_with_mandatory_other.json"),
+		LauncherSchemaFromFilename("test_radio_mandatory_with_mandatory_other_overridden_error.json"),
+		LauncherSchemaFromFilename("test_radio_mandatory_with_optional_other.json"),
+		LauncherSchemaFromFilename("test_radio_mandatory_with_overridden_error.json"),
+		LauncherSchemaFromFilename("test_radio_optional_.json"),
+		LauncherSchemaFromFilename("test_radio_optional_with_mandatory_other.json"),
+		LauncherSchemaFromFilename("test_radio_optional_with_mandatory_other_overridden_error.json"),
+		LauncherSchemaFromFilename("test_radio_optional_with_optional_other.json"),
 		LauncherSchemaFromFilename("test_relationship_household.json"),
 		LauncherSchemaFromFilename("test_repeating_and_conditional_routing.json"),
 		LauncherSchemaFromFilename("test_repeating_household.json"),
