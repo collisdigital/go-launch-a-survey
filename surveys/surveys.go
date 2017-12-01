@@ -7,9 +7,6 @@ import (
 	"log"
 	"net/http"
 	"regexp"
-	"os"
-	"fmt"
-	"path/filepath"
 )
 
 // LauncherSchema is a representation of a schema in the Launcher
@@ -43,15 +40,6 @@ func extractEqIDFormType(schema string) (EqID, formType string) {
 		formType = match[2]
 	}
 	return
-}
-
-func LauncherSchemaFromDirectory(filename string) LauncherSchema{
-	file, err := os.Open("/**/*.go")
-	if err != nil {
-		log.Fatal(err)
-	}
-	return LauncherSchemaFromFilename(filename)
-	}
 }
 
 // LauncherSchemaFromFilename creates a LauncherSchema record from a schema filename
