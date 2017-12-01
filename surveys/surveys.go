@@ -100,7 +100,7 @@ func GetAvailableSchemas() []LauncherSchema {
 		LauncherSchemaFromFilename("test_radio_mandatory_with_mandatory_other_overridden_error.json"),
 		LauncherSchemaFromFilename("test_radio_mandatory_with_optional_other.json"),
 		LauncherSchemaFromFilename("test_radio_mandatory_with_overridden_error.json"),
-		LauncherSchemaFromFilename("test_radio_optional_.json"),
+		LauncherSchemaFromFilename("test_radio_optional.json"),
 		LauncherSchemaFromFilename("test_radio_optional_with_mandatory_other.json"),
 		LauncherSchemaFromFilename("test_radio_optional_with_mandatory_other_overridden_error.json"),
 		LauncherSchemaFromFilename("test_radio_optional_with_optional_other.json"),
