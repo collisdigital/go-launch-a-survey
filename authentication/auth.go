@@ -144,7 +144,7 @@ type QuestionnaireSchema struct {
 
 // Generates a random string of a defined length
 func randomStringGen() (rs string) {
-	size := 6 //change the length of the generated random string
+	size := 8 //change the length of the generated random string
 	rb := make([]byte, size)
 	_, err := rand.Read(rb)
 
