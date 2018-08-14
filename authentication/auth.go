@@ -449,6 +449,7 @@ func GetDefaultValues() (map[string]string) {
 	defaults["period_id"] = "201605"
 	defaults["period_str"] = "May 2017"
 	defaults["collection_exercise_sid"] = uuid.NewV4().String()
+	defaults["case_id"] = uuid.NewV4().String()
 	defaults["ru_ref"] = "12346789012A"
 	defaults["ru_name"] = "ESSENTIAL ENTERPRISE LTD."
 	defaults["ref_p_start_date"] = "2016-05-01"
