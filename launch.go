@@ -147,7 +147,7 @@ func quickLauncherHandler(w http.ResponseWriter, r *http.Request) {
 
 	urlValues.Add("ru_ref", authentication.GetDefaultValues()["ru_ref"])
 	urlValues.Add("collection_exercise_sid", uuid.NewV4().String())
-	urlValues.Add("case_id", uuid.NewV4().String())
+	urlValues.Add("questionnaire_id", randomNumericString(16))
 	urlValues.Add("response_id", randomNumericString(16))
 
 	token, err := authentication.GenerateTokenFromDefaults(surveyURL, accountServiceURL, AccountServiceLogOutURL, urlValues)
