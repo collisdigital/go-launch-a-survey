@@ -21,7 +21,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
         with:
-          path: ${{ env.GOPATH }}/${{ github.repository }}
+          path: ${{ env.GOPATH }}/github.com/${{ github.repository }}
       - name: Run unit tests
         run: go test ./... -cover -v
 
