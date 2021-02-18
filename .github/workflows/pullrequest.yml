@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go-version }}
-        run: go get -t ./...
+        # run: go get -t ./...
       - name: Run unit tests
         run: go test ./... -cover -v
 
