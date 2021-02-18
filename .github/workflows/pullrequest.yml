@@ -14,17 +14,12 @@ jobs:
       GOPATH: ${{ github.workspace }}
 
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
       - name: Install Go
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go-version }}
-        # run: go get -t ./...
-      # - name: Go something else
-      #   run: go get -u github.com/golang/dep/cmd/dep
-      # - name: Go get
-      #   run: go get -t ./...
+      - name: Check out code
+        uses: actions/checkout@v2
       - name: Run unit tests
         run: go test ./... -cover -v
 
