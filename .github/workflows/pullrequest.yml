@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: '^1.13.4'
-      - run: echo $GOPATH
+      - run: go get -u github.com/golang/dep/cmd/dep
       - run: dep ensure
       - run: go get -t ./...
       - run: CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo
