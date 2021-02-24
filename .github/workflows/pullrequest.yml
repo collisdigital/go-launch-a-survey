@@ -15,8 +15,8 @@ jobs:
         uses: actions/checkout@v2
       - uses: actions/setup-go@v2
         with:
-          go-version: '^1.13.1' # The Go version to download (if necessary) and use.
-      # - run: sudo apt-get install dep
+          go-version: '^1.13.4' # The Go version to download (if necessary) and use.
+      - run: sudo apt-get install dep
       - run: dep ensure
       - run: go get -t ./...
       - run: CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo
