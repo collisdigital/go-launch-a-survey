@@ -16,6 +16,9 @@ jobs:
       - uses: actions/setup-go@v1
         with:
           go-version: '1.9.3'
+      - run: dep ensure
+      - run: go get -t ./...
+      - run: CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo
       - name: Build onsdigital/eq-schema-validator Docker image
         run: docker build -t onsdigital/eq-schema-validator:$TAG -f Dockerfile .
       - name: Login to DockerHub
